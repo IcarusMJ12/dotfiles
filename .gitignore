@@ -1,0 +1,11 @@
+# everything!
+*
+
+# ...except .files
+!.*
+
+# unless they're history files or similarly useless
+.*_history
+.CFUserTextEncoding
+.DS_Store
+.Trash/
