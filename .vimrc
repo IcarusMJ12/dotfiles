@@ -1,5 +1,3 @@
-syntax on
-
 set colorcolumn=81
 set nu
 set shiftwidth=4
@@ -7,8 +5,10 @@ set tabstop=4
 set softtabstop=4
 set expandtab
 set autoindent
-set cindent
 set smarttab
+
+syntax on
+filetype indent on
 
 map <leader>jt  <Esc>:%!json_xs -f json -t json-pretty<CR>
 au BufRead,BufNewFile *.json set filetype=json
