@@ -1,2 +1,4 @@
+shell -$SHELL
 setenv LC_CTYPE en_US.UTF-8
 defscrollback 10000
+setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock

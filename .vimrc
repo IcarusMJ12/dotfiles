@@ -1,10 +1,13 @@
 syntax on
+
+set colorcolumn=81
 set nu
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
 set expandtab
 set autoindent
-set smartindent
+set cindent
 set smarttab
 
 map <leader>jt  <Esc>:%!json_xs -f json -t json-pretty<CR>

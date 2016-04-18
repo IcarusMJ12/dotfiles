@@ -5,3 +5,5 @@ name = Igor Kaplounenko
 email = igor@nervanasys.com
 [push]
 	default = simple
+[core]
+	editor = vim
