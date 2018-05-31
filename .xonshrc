@@ -1,0 +1,16 @@
+from xonsh.dirstack import dirs as _dirs
+
+$GOPATH = $(/usr/local/go/bin/go env GOPATH).strip()
+$PATH = $GOPATH[0] + ':/usr/local/share/google-cloud-sdk/bin:/usr/local/go/bin:/opt/local/bin:/opt/local/sbin:/opt/local/Library/Frameworks/Python.framework/Versions/Current/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin'
+$PROMPT = lambda: '{env_name:{} }{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} ' + ' '.join(reversed(_dirs(None)[0].strip().split(' '))) + ' {branch_color}{curr_branch: {}}{NO_COLOR} {BOLD_BLUE}{ret_code_color}{ret_code}{prompt_end}{NO_COLOR} '
+$VI_MODE = 1
+$SHELL = '/opt/local/bin/xonsh'
+$EDITOR = 'vim'
+$CC = 'clang'
+$CXX = 'clang++'
+aliases['pu'] = 'pushd 1>/dev/null'
+aliases['po'] = 'popd 1>/dev/null'
+aliases['screen'] = 'screen -U'
+
+$LOG_LEVEL = 7
+$CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE = 'True'

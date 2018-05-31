@@ -2,7 +2,7 @@
 [user]
 # Please adapt and uncomment the following lines:
 name = Igor Kaplounenko
-email = igor@nervanasys.com
+email = igor.kaplounenko@intel.com
 [push]
 	default = simple
 [core]
