@@ -1,10 +1,23 @@
+# vi:syntax=py
 from xonsh.dirstack import dirs as _dirs
+from xonsh.tools import get_sep as _get_sep
 
-$GOPATH = $(/usr/local/go/bin/go env GOPATH).strip()
-$PATH = $GOPATH[0] + ':/usr/local/share/google-cloud-sdk/bin:/usr/local/go/bin:/opt/local/bin:/opt/local/sbin:/opt/local/Library/Frameworks/Python.framework/Versions/Current/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin'
-$PROMPT = lambda: '{env_name:{} }{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} ' + ' '.join(reversed(_dirs(None)[0].strip().split(' '))) + ' {branch_color}{curr_branch: {}}{NO_COLOR} {BOLD_BLUE}{ret_code_color}{ret_code}{prompt_end}{NO_COLOR} '
+# shamelessly ripped off of xonsh's code itself
+def _collapsed_dir(dir):
+    sep = _get_sep()
+    dir = dir.split(sep)
+    l = len(dir)
+    leader = sep if l > 0 and len(dir[0]) == 0 else ''
+    base = [i[0] if ix != l - 1 else i
+            for ix, i in enumerate(dir) if len(i) > 0]
+    return leader + sep.join(base)
+
+$DYNAMIC_CWD_WIDTH = (30, '%')
+$PATH = '/usr/local/share/google-cloud-sdk/bin:/usr/local/go/bin:/opt/local/bin:/opt/local/sbin:/opt/local/Library/Frameworks/Python.framework/Versions/Current/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin'
+$PROMPT_FIELDS['workdirs'] = lambda: ' '.join([_collapsed_dir(dir) for dir in reversed(_dirs(['-p'])[0].strip('\n').split('\n')[1:])])
+$PROMPT = '{env_name:{} }{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {workdirs} {cwd} {branch_color}{curr_branch: {} }{ret_code_color}{ret_code}{BOLD_BLUE}{prompt_end} {NO_COLOR}'
 $VI_MODE = 1
-$SHELL = '/opt/local/bin/xonsh'
+$SHELL = '/usr/local/bin/xonsh'
 $EDITOR = 'vim'
 $CC = 'clang'
 $CXX = 'clang++'
@@ -14,3 +27,9 @@ aliases['screen'] = 'screen -U'
 
 $LOG_LEVEL = 7
 $CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE = 'True'
+xontrib load autoxsh bashisms coreutils free_cwd vox vox_tabcomplete distributed mpl
+xontrib load prompt_ret_code
+
+$SSH_SOCKS_SERVER = 'proxy-chain.intel.com:1080'
+$GIT_PROXY_COMMAND = '~/bin/socks_connect'
+$http_proxy = $HTTP_PROXY = $https_proxy = $HTTPS_PROXY = "http://proxy-fm.intel.com:911"
