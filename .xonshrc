@@ -1,0 +1,31 @@
+# vi:syntax=py
+from xonsh.dirstack import dirs as _dirs
+from xonsh.tools import get_sep as _get_sep
+
+# shamelessly ripped off of xonsh's code itself
+def _collapsed_dir(dir):
+    sep = _get_sep()
+    dir = dir.split(sep)
+    l = len(dir)
+    leader = sep if l > 0 and len(dir[0]) == 0 else ''
+    base = [i[0] if ix != l - 1 else i
+            for ix, i in enumerate(dir) if len(i) > 0]
+    return leader + sep.join(base)
+
+$DYNAMIC_CWD_WIDTH = (30, '%')
+$PROMPT_FIELDS['workdirs'] = lambda: ' '.join([_collapsed_dir(dir) for dir in reversed(_dirs(['-p'])[0].strip('\n').split('\n')[1:])])
+$PROMPT = '{env_name:{} }{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {workdirs} {cwd} {branch_color}{curr_branch: {} }{ret_code_color}{ret_code}{BOLD_BLUE}{prompt_end} {RESET}'
+$VI_MODE = 1
+$SHELL = '/usr/bin/xonsh'
+$EDITOR = 'vim'
+$CC = 'clang'
+$CXX = 'clang++'
+
+aliases['pu'] = 'pushd 1>/dev/null'
+aliases['po'] = 'popd 1>/dev/null'
+aliases['screen'] = 'screen -U'
+
+# XONSH WIZARD START
+xontrib load autoxsh bashisms coreutils free_cwd vox vox_tabcomplete distributed mpl
+xontrib load prompt_ret_code 
+# XONSH WIZARD END
